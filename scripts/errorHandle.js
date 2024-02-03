@@ -1,3 +1,3 @@
-export const error_Handling = (error) => {
+export const errorHandling = (error) => {
     alert(error.message)
 }
