@@ -1,34 +1,36 @@
-import { renderMainPage } from "./components/index.js";
-import { registrationPage } from "./components/registrationPage.js";
-import { loginPage } from "./components/loginPage.js";
+import { renderMainPage } from './components/index.js'
+import { registrationPage } from './components/registrationPage.js'
+import { loginPage } from './components/loginPage.js'
 
 // ------------------НАЧАЛЬНЫЕ ДАННЫЕ-------------------
 
 const state = {
-  init: {
-    page: "auth",
-    isAuth: false,
-    authMode: "login",
-  },
-};
+    init: {
+        page: 'auth',
+        isAuth: false,
+        authMode: 'login',
+    },
+}
 
 //----------------------РОУТЕР----------------------------
 
 export const appRouter = (state) => {
-  let flag = state.init.page;
-  let authMode = state.init.authMode;
+    let flag = state.init.page
+    let authMode = state.init.authMode
 
-  switch (flag) {
-    case "main":
-      console.log("first")
-      renderMainPage(state);
-      break;
-    case "auth":
-      authMode === "registration" ? registrationPage(state) : loginPage(state);
-      break;
-    default:
-      break;
-  }
-};
+    switch (flag) {
+        case 'main':
+            console.log('first')
+            renderMainPage(state)
+            break
+        case 'auth':
+            authMode === 'registration'
+                ? registrationPage(state)
+                : loginPage(state)
+            break
+        default:
+            break
+    }
+}
 //------------------Запуск приложения------------------
-appRouter(state);
+appRouter(state)

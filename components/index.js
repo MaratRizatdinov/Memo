@@ -1,14 +1,14 @@
-import { createApiEndpoints } from "../api/apiModule.js";
-import { renderList } from "../scripts/render.js";
-import { safeInput } from "../scripts/safeInput.js";
-import { appRouter } from "../app.js";
+import { createApiEndpoints } from '../api/apiModule.js'
+import { renderList } from '../scripts/render.js'
+import { safeInput } from '../scripts/safeInput.js'
+import { appRouter } from '../app.js'
 
 // ----------------------Статичная разметка страницы----------------------------------------
 
 export const renderMainPage = (state) => {
-  console.log(state);
-  const appEl = document.getElementById("app");
-  const appHtml = `<div class="container">
+    console.log(state)
+    const appEl = document.getElementById('app')
+    const appHtml = `<div class="container">
                   <ul class="comments" id="list"></ul>
                   <div class="add-form">
                     <div id="load" class="add-form-load">
@@ -39,137 +39,137 @@ export const renderMainPage = (state) => {
                   <div class="is-auth-no">
                     Чтобы добавить комментарий <span class ="link">авторизуйтесь</span>
                   </div>
-                </div>`;
+                </div>`
 
-  appEl.innerHTML = appHtml;
+    appEl.innerHTML = appHtml
 
-  //-----------------------ИНИЦИАЛИЗАЦИЯ ПЕРЕМЕННЫХ-------------------------------------
+    //-----------------------ИНИЦИАЛИЗАЦИЯ ПЕРЕМЕННЫХ-------------------------------------
 
-  const listElement = document.getElementById("list");
-  const buttonElement = document.getElementById("add-button");
-  const nameElement = document.getElementById("name-input");
-  const commentElement = document.getElementById("comment-input");
-  const loadingField = document.getElementById("load");
-  const loadTextElement = document.getElementById("load-text");
-  const addFormElement = document.querySelector(".add-form");
-  const unAuthElement = document.querySelector(".is-auth-no");
-  const linkElement = document.querySelector(".link");
-  const exitElement = document.getElementById("exit-button");
+    const listElement = document.getElementById('list')
+    const buttonElement = document.getElementById('add-button')
+    const nameElement = document.getElementById('name-input')
+    const commentElement = document.getElementById('comment-input')
+    const loadingField = document.getElementById('load')
+    const loadTextElement = document.getElementById('load-text')
+    const addFormElement = document.querySelector('.add-form')
+    const unAuthElement = document.querySelector('.is-auth-no')
+    const linkElement = document.querySelector('.link')
+    const exitElement = document.getElementById('exit-button')
 
-  // ----------------Подключаем АПИ Функционал------------------------------------------
+    // ----------------Подключаем АПИ Функционал------------------------------------------
 
-  const getComments = createApiEndpoints("getComments", state);
-  const addComment = createApiEndpoints("addComment", state);
-  const toggleLike = createApiEndpoints("toggleLike", state);
+    const getComments = createApiEndpoints('getComments', state)
+    const addComment = createApiEndpoints('addComment', state)
+    const toggleLike = createApiEndpoints('toggleLike', state)
 
-  //---------------Отрисовка страницы в зависимости от состояния авторизации------------
+    //---------------Отрисовка страницы в зависимости от состояния авторизации------------
 
-  const isAuth = state.init.isAuth;
+    const isAuth = state.init.isAuth
 
-  if (!isAuth) {
-    addFormElement.style.display = "none";
-    unAuthElement.style.display = "block";
-  } else {
-    addFormElement.style.display = "block";
-    unAuthElement.style.display = "none";
-  }
-
-  //---------------- Функционал Лоадинга страницы -------------------------------------
-
-  const isLoading = (flag) => {
-    if (flag) {
-      loadingField.style.display = "none";
-      loadTextElement.style.display = "inline";
-      buttonElement.disabled = true;
+    if (!isAuth) {
+        addFormElement.style.display = 'none'
+        unAuthElement.style.display = 'block'
     } else {
-      loadingField.style.display = "flex";
-      loadTextElement.style.display = "none";
-      buttonElement.disabled = false;
+        addFormElement.style.display = 'block'
+        unAuthElement.style.display = 'none'
     }
-  };
 
-  //-----------------Функционал Валидации Инпута на заполненность------------------------
+    //---------------- Функционал Лоадинга страницы -------------------------------------
 
-  const validateFn = () => {
-    if (nameElement.value === "" || commentElement.value === "") {
-      buttonElement.disabled = true;
-      buttonElement.classList.add("add-form-button-deactive");
-    } else {
-      buttonElement.disabled = false;
-      buttonElement.classList.remove("add-form-button-deactive");
+    const isLoading = (flag) => {
+        if (flag) {
+            loadingField.style.display = 'none'
+            loadTextElement.style.display = 'inline'
+            buttonElement.disabled = true
+        } else {
+            loadingField.style.display = 'flex'
+            loadTextElement.style.display = 'none'
+            buttonElement.disabled = false
+        }
     }
-  };
-  nameElement.addEventListener("input", validateFn);
-  commentElement.addEventListener("input", validateFn);
 
-  //-----------------Первичный рендер----------------
+    //-----------------Функционал Валидации Инпута на заполненность------------------------
 
-  renderList({
-    listElement,
-    getComments,
-    toggleLike,
-    isLoading,
-  });
-  buttonElement.disabled = true;
-  buttonElement.classList.add("add-form-button-deactive");
-
-  //----------------Обрабочик клика отправки комментария ( плюс отправка при нажатии Enter)
-
-  const addCommentOnEvent = () => {
-    if (nameElement.value === "" || commentElement.value === "") {
-      return;
+    const validateFn = () => {
+        if (nameElement.value === '' || commentElement.value === '') {
+            buttonElement.disabled = true
+            buttonElement.classList.add('add-form-button-deactive')
+        } else {
+            buttonElement.disabled = false
+            buttonElement.classList.remove('add-form-button-deactive')
+        }
     }
-    const body = JSON.stringify({
-      text: safeInput(commentElement.value),
-      name: safeInput(nameElement.value),
-      forceError: true,
-    });
-    addComment(body, isLoading).then((data) => {
-      if (data.response) {
-        renderList({
-          listElement,
-          getComments,
-          toggleLike,
-          isLoading,
-        });
+    nameElement.addEventListener('input', validateFn)
+    commentElement.addEventListener('input', validateFn)
 
-        // nameElement.value = "";
-        commentElement.value = "";
-        buttonElement.disabled = true;
-        buttonElement.classList.add("add-form-button-deactive");
-      } else {
-        return;
-      }
-    });
-  };
+    //-----------------Первичный рендер----------------
 
-  buttonElement.addEventListener("click", addCommentOnEvent);
-  
-  document.addEventListener('keyup',(e)=>{
-    if(e.code ==="Enter"|| e.code ==="NumpadEnter"){
-      addCommentOnEvent()
+    renderList({
+        listElement,
+        getComments,
+        toggleLike,
+        isLoading,
+    })
+    buttonElement.disabled = true
+    buttonElement.classList.add('add-form-button-deactive')
+
+    //----------------Обрабочик клика отправки комментария ( плюс отправка при нажатии Enter)
+
+    const addCommentOnEvent = () => {
+        if (nameElement.value === '' || commentElement.value === '') {
+            return
+        }
+        const body = JSON.stringify({
+            text: safeInput(commentElement.value),
+            name: safeInput(nameElement.value),
+            forceError: true,
+        })
+        addComment(body, isLoading).then((data) => {
+            if (data.response) {
+                renderList({
+                    listElement,
+                    getComments,
+                    toggleLike,
+                    isLoading,
+                })
+
+                // nameElement.value = "";
+                commentElement.value = ''
+                buttonElement.disabled = true
+                buttonElement.classList.add('add-form-button-deactive')
+            } else {
+                return
+            }
+        })
     }
-  })
 
-  //---------------Обработчик перехода на страницу Логина---------------------------
+    buttonElement.addEventListener('click', addCommentOnEvent)
 
-  linkElement.addEventListener("click", () => {
-    state.init.page = "auth";
-    state.init.authMode = "login";
-    appRouter(state);
-  });
+    document.addEventListener('keyup', (e) => {
+        if (e.code === 'Enter' || e.code === 'NumpadEnter') {
+            addCommentOnEvent()
+        }
+    })
 
-  //---------------Обработчик кнопки выхода ---------------------------
+    //---------------Обработчик перехода на страницу Логина---------------------------
 
-  exitElement.addEventListener("click", () => {
-    state.init.page = "auth";
-    state.init.authMode = "login";
-    state.init.name = "";
-    state.init.password = "";
-    state.init.token = "";
-    state.init._id = "";
-    state.init.isAuth = false;
-    localStorage.removeItem("token");
-    appRouter(state);
-  });
-};
+    linkElement.addEventListener('click', () => {
+        state.init.page = 'auth'
+        state.init.authMode = 'login'
+        appRouter(state)
+    })
+
+    //---------------Обработчик кнопки выхода ---------------------------
+
+    exitElement.addEventListener('click', () => {
+        state.init.page = 'auth'
+        state.init.authMode = 'login'
+        state.init.name = ''
+        state.init.password = ''
+        state.init.token = ''
+        state.init._id = ''
+        state.init.isAuth = false
+        localStorage.removeItem('token')
+        appRouter(state)
+    })
+}
