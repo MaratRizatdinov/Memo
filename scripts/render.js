@@ -18,6 +18,6 @@ export const renderList = ({
             })
         }
 
-        initEventListeners(".like-button", 'click', comments, likeAction)
+        initEventListeners('.like-button', 'click', comments, likeAction)
     })
 }
