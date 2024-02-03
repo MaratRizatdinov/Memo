@@ -10,7 +10,7 @@ export const registrationPage = (state) => {
     // ---------------------Статичная разметка-----------------------------------------
 
     const appEl = document.getElementById('app')
-    const appHtml = `<div class="container container__auth">        
+    const appHtml = `<div class="containera container__auth">        
                         <div class="auth__form">
                             <h2 class="field__title">Форма регистрации</h2>
                             <input type="text" class="name__field" placeholder="Имя">

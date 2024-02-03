@@ -10,7 +10,7 @@ export const loginPage = (state) => {
     // ---------------------Статичная разметка-----------------------------------------
 
     const appEl = document.getElementById('app')
-    const appHtml = `<div class="container container__auth">        
+    const appHtml = `<div class="containera container__auth">        
                         <div class="auth__form">
                             <h2 class="field__title">Форма логина</h2>                            
                             <input type="text" class="log__field" placeholder="Логин" value ="Марат Р">

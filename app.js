@@ -1,6 +1,7 @@
 import { renderMainPage } from './components/index.js'
 import { registrationPage } from './components/registrationPage.js'
 import { loginPage } from './components/loginPage.js'
+import './styles/styles.css'
 
 // ------------------НАЧАЛЬНЫЕ ДАННЫЕ-------------------
 
@@ -33,4 +34,5 @@ export const appRouter = (state) => {
     }
 }
 //------------------Запуск приложения------------------
+
 appRouter(state)
