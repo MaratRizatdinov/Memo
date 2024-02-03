@@ -12,9 +12,3 @@ export const safeInput = (string) => {
         .replaceAll('>', '&gt;')
         .replaceAll('"', '&quot;')
 }
-
-// {
-//   "tabWidth": 2,
-//   "semi": true,
-//   "singleQuote": false
-// }
