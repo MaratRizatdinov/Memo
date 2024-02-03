@@ -9,7 +9,7 @@
         "lint:js": "eslint  ./**/*.js",
         "lint:css": "stylelint  ./**/*.scss --fix",
         "prepare": "husky",
-        "test": "prettier --write ."
+        "test": "npm run lint:js && npm run lint:css"
     },
     "author": "",
     "license": "ISC",
