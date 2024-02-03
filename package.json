@@ -10,9 +10,9 @@
         "lint:css": "stylelint  ./**/*.scss --fix",
         "prepare": "husky install"
     },
-    "husky":{
-        "hooks":{
-            "pre-commit": "format"
+    "husky": {
+        "hooks": {
+            "pre-commit": "echo \"[Husky] pre-commit\""
         }
     },
     "author": "",
