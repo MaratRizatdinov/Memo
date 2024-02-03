@@ -14,7 +14,7 @@
         "hooks":{
             "pre-commit": "format"
         }
-    }
+    },
     "author": "",
     "license": "ISC",
     "dependencies": {
